@@ -7,8 +7,8 @@ sfdc:
     host: "login.salesforce.com"
     username: "juliocfleal@hotmail.com"
     password: "teste123"
-    security_token: "RW2rUSwSU6ew24wVaPOQqXuh"
-    client_id: "3MVG9XgkMlifdwVBXzrd0ziWn0zbGz8tIQcMpezWomv1zTTilYZQks8vPJhjk8YCMVeDc7GjZbnp.tak7dGfv"
-    client_secret: "8E5A6CD2CDB10B5AC629C282DCA5B50B97E0DA1152DBD806B76E296A4D0E0E95"
+    security_token: "jCMiN02wCIolkDXjafDiMuAkx"
+    client_id: "3MVG9XgkMlifdwVBXzrd0ziWn00dcinhuhHGUrq1F8vOjpJJ7EVnm4RRIfY1_tankMAPex.piS9ORZKA4qvzV"
+    client_secret: "3F5E02D718627779348BF0E66B87500617920E6B34EB107ED03B7279D2CA4283"
   endpoint:
-    host: "juliocfleal.my.salesforce.com"
+    host: "leal4-dev-ed.develop.my.salesforce.com"
