@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="demo-02-insert-flow" doc:id="03d6d45a-25d4-41fb-9c5d-2e2ab5daf13b" >
+		<set-variable value="Account" doc:name="Object Name" doc:id="689e8b11-48b4-40f9-870d-cee0724132a3" variableName="objectName"/>
+		<flow-ref doc:name="Realiza Autenticação" doc:id="11eb2fed-4f23-4f56-8dbc-27f200db0b2e" name="demo-01-rest-flow" target="sfdc_token" targetValue="#[payload.access_token]"/>
+		<ee:transform doc:name="Build Body" doc:id="9381aa42-624e-4edd-994f-3cbbb29f06ee">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"name": vars.requestPayload.nome,
+	"AccountNumber": vars.requestPayload.numero_conta
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables>
+			</ee:variables>
+		</ee:transform>
+		<http:request method="POST" doc:name="Request" doc:id="4f7285f0-f1dc-43f6-9fbc-a35afc746434" config-ref="SFDC_ENDPOINT" path="/services/data/v50.0/sobjects/{object_name}">
+			<http:headers ><![CDATA[#[{
+	Authorization: "Bearer " ++ vars.sfdc_token
+}]]]></http:headers>
+			<http:uri-params ><![CDATA[#[{
+	object_name: vars.objectName
+}]]]></http:uri-params>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="120ece5e-79c0-4375-900b-79e0a0652a9c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	id_conta : payload.id
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

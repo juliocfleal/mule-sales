@@ -8,15 +8,19 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="6a08ce94-fabb-4a33-8076-fb7c53f9a654" basePath="/course/api">
 		<http:listener-connection host="0.0.0.0" port="${api.config.port}" />
 	</http:listener-config>
-	<apikit:config outboundHeadersMapName="outboundHeadersMapName" httpStatusVarName="httpStatus" doc:name="Router" doc:id="9ae8e6f5-c323-4726-a0d5-371e93d1fa37" name="RouterRest" api="api\rest-api.raml" >
+	<apikit:config outboundHeadersMapName="outboundHeadersMapName" httpStatusVarName="httpStatus" doc:name="Router" doc:id="9ae8e6f5-c323-4726-a0d5-371e93d1fa37" name="RouterRest" api="api\rest-api.raml" parser="RAML">
 		<apikit:flow-mappings >
 			<apikit:flow-mapping resource="/demo-01/rest" action="get" flow-ref="demo-01-rest-flow" />
 			<apikit:flow-mapping resource="/demo-01/soap" action="get" flow-ref="demo-01-soap-flow" />
+			<apikit:flow-mapping resource="/demo-02/insert" action="post" flow-ref="demo-02-insert-flow" />
 		</apikit:flow-mappings>
 	</apikit:config>
 	<apikit:config outboundHeadersMapName="outboundHeadersMapName" httpStatusVarName="httpStatus" doc:name="Router" doc:id="206403a6-6401-486f-8f41-ee98d642b493" name="RouterComponent" api="api\component-api.raml" />
 	<configuration-properties doc:name="Configuration properties" doc:id="076115ac-3ef8-4159-928b-b75e9839054d" file="Local.yaml" />
 	<http:request-config name="SFDC_AUTH" doc:name="HTTP Request configuration" doc:id="2de48bc0-1a81-4963-b65a-0c61c0df33b7" >
 		<http:request-connection protocol="HTTPS" host="${sfdc.auth.host}" />
+	</http:request-config>
+	<http:request-config name="SFDC_ENDPOINT" doc:name="HTTP Request configuration" doc:id="7d046abe-e5ef-4746-ba56-d14f67e38ff5" >
+		<http:request-connection protocol="HTTPS" host="${sfdc.endpoint.host}" />
 	</http:request-config>
 </mule>
