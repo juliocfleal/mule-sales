@@ -14,6 +14,8 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 			<apikit:flow-mapping resource="/demo-01/soap" action="get" flow-ref="demo-01-soap-flow" />
 			<apikit:flow-mapping resource="/demo-02/insert" action="post" flow-ref="demo-02-insert-flow" />
 			<apikit:flow-mapping resource="/demo-03/consultar" action="post" flow-ref="demo-03-consulta-flow" />
+			<apikit:flow-mapping resource="/demo-04/batch/v2" action="post" flow-ref="demo-04-batch-v2" />
+			<apikit:flow-mapping resource="/demo-05/{id}" action="get" flow-ref="demo-05-flow" />
 		</apikit:flow-mappings>
 	</apikit:config>
 	<apikit:config outboundHeadersMapName="outboundHeadersMapName" httpStatusVarName="httpStatus" doc:name="Router" doc:id="206403a6-6401-486f-8f41-ee98d642b493" name="RouterComponent" api="api\component-api.raml" />

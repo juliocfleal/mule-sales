@@ -6,8 +6,8 @@ sfdc:
   auth:
     host: "login.salesforce.com"
     username: "juliocfleal@hotmail.com"
-    password: "teste123"
-    security_token: "jCMiN02wCIolkDXjafDiMuAkx"
+    password: "teste1234"
+    security_token: "4BqZFZo4clzvq6B30lMjWOuo"
     client_id: "3MVG9XgkMlifdwVBXzrd0ziWn00dcinhuhHGUrq1F8vOjpJJ7EVnm4RRIfY1_tankMAPex.piS9ORZKA4qvzV"
     client_secret: "3F5E02D718627779348BF0E66B87500617920E6B34EB107ED03B7279D2CA4283"
   endpoint:
