@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<flow name="cdemo-04Flow" doc:id="3b62836f-ff4a-4d5c-bf3c-5a90b361055b" >
+		<ee:transform doc:name="Transform Message" doc:id="88a8aa0e-9465-41d7-98cb-b077450d3680" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/csv lineSeparator="\r\n"
+---
+vars.requestPayload map (
+	{
+		name: $.name
+	}
+)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:create-job-bulk-api-v2 objectType="Account" doc:name="Create job bulk api v 2" doc:id="e5c11b45-37e3-429e-a933-744c5b4ea386" config-ref="Salesforce_Config" operation="insert" externalIdFieldName="Id" lineEnding="CRLF"/>
+		<ee:transform doc:name="Transform Message" doc:id="0d4afdd6-8280-41a6-9b74-68f24ed9bc9e" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

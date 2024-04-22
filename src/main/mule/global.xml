@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd">
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="6a08ce94-fabb-4a33-8076-fb7c53f9a654" basePath="/course/api">
 		<http:listener-connection host="0.0.0.0" port="${api.config.port}" />
 	</http:listener-config>
@@ -18,7 +19,15 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 			<apikit:flow-mapping resource="/demo-05/{id}" action="get" flow-ref="demo-05-flow" />
 		</apikit:flow-mappings>
 	</apikit:config>
-	<apikit:config outboundHeadersMapName="outboundHeadersMapName" httpStatusVarName="httpStatus" doc:name="Router" doc:id="206403a6-6401-486f-8f41-ee98d642b493" name="RouterComponent" api="api\component-api.raml" />
+	<apikit:config outboundHeadersMapName="outboundHeadersMapName" httpStatusVarName="httpStatus" doc:name="Router" doc:id="206403a6-6401-486f-8f41-ee98d642b493" name="RouterComponent" api="api\component-api.raml" parser="RAML">
+		<apikit:flow-mappings >
+			<apikit:flow-mapping resource="/demo-01" action="get" flow-ref="demo-01Flow" />
+			<apikit:flow-mapping resource="/demo-02" action="post" flow-ref="cdemo-02Flow" />
+			<apikit:flow-mapping resource="/demo-03" action="post" flow-ref="cdemo-03Flow" />
+			<apikit:flow-mapping resource="/demo-04" action="post" flow-ref="cdemo-04Flow" />
+			<apikit:flow-mapping resource="/demo-05/{id}" action="get" flow-ref="cdemo-05Flow" />
+		</apikit:flow-mappings>
+	</apikit:config>
 	<configuration-properties doc:name="Configuration properties" doc:id="076115ac-3ef8-4159-928b-b75e9839054d" file="Local.yaml" />
 	<http:request-config name="SFDC_AUTH" doc:name="HTTP Request configuration" doc:id="2de48bc0-1a81-4963-b65a-0c61c0df33b7" >
 		<http:request-connection protocol="HTTPS" host="${sfdc.auth.host}" />
@@ -26,4 +35,7 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 	<http:request-config name="SFDC_ENDPOINT" doc:name="HTTP Request configuration" doc:id="7d046abe-e5ef-4746-ba56-d14f67e38ff5" >
 		<http:request-connection protocol="HTTPS" host="${sfdc.endpoint.host}" />
 	</http:request-config>
+	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="0c8eb851-9592-457a-9c9f-6dd9988083e5" >
+		<salesforce:oauth-user-pass-connection consumerKey="${sfdc.auth.client_id}" consumerSecret="${sfdc.auth.client_secret}" username="${sfdc.auth.username}" password="${sfdc.auth.password}" securityToken="${sfdc.auth.security_token}" />
+	</salesforce:sfdc-config>
 </mule>
